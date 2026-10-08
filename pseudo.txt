@@ -1,0 +1,59 @@
+/*************************************************************
+* pseudo.txt
+* Author: Michael Johnston
+* Date: 10/1/2026
+**************************************************************/
+Notes:
+
+The goal of this project will be to create an interactive calculator for vectors.
+Will be limited that each will only have 3 elements
+
+user input:
+>help
+>quit / exit
+>list
+>clear
+> (vector)
+
+vectors
+> a = 1 2 3
+> c = a + b
+> d = c * 2
+> e = 2 1
+> a + b
+> b
+> a * b 
+> a x b
+
+pseudo code:
+
+struct vectors
+    char[] name
+    float x
+    float y
+    float z
+
+
+vect add(vect a, vect b)
+
+
+vect sub(vect a, vect b)
+
+vect VectorMult(vect a, vect b)
+
+vect ScalarMult(vect a, vect b)
+
+vector Array commands
+
+void addVect(vect newVect)
+vect findVect(char* name)
+    return found vect
+void clear()
+void list()
+//not specified
+vect delete(vect oldVect)
+    return old vect
+vect replace(vect newVect)
+    return old vect
+
+
