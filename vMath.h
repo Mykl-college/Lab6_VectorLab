@@ -12,13 +12,13 @@ vect sMult(vect a, float c);
 // vector Array commands
 vect addVect(vect d);
     //return added vect value;
-vect findVect(char* name);
+vect findVect(vect a);
     //return found vect;
 void clear();
     //clear array
-vect delete(char* name);
+vect delete(vect a);
     //return deleted vect
-vect replace(char* name,vect d);
+vect replace(vect a,vect d);
     //chosen name is replaced with vect d
     //return old vect
 /*************************************************************/
