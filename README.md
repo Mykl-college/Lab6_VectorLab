@@ -20,3 +20,6 @@ This progam is a vector calculator, the following actions can be called:
 ## Dynamic memory
 - If this is still here, it has not been implemented yet
     - or I forget to get rid of this and explain what I did
+- Array not limited to size anymore.
+    - Intitial array starts at 10.
+    - when make size is reached, the array is realloc to double the size.

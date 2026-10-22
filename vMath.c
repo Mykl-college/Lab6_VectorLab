@@ -8,8 +8,14 @@
 #include <stdlib.h>
 #include "vect.h"
 #include "vMath.h"
-
-static vect myVect[10];
+//static memory
+    //static vect myVect[10];
+//Dynamic memory
+static vect *myVect = NULL;
+//keep track of array size;
+static int arSize = 10;
+//keep track of list count;
+static int cnt = 0;
 //add 2 vectors
 vect add(vect a, vect b){
     vect fin;
@@ -50,14 +56,23 @@ vect sMult(vect a, float c){
 /*************************************************************/
 // vector Array commands
 vect addVect(vect d){
-    for(int lcv=0;lcv<10;lcv++){
+    if(cnt>=arSize){
+        arSize=arSize*2;
+        vect *tempArray = realloc(myVect, arSize * sizeof(vect));
+        if(tempArray!=NULL){
+            myVect = tempArray;
+        }else{
+            printf("Memory Allocation failed");
+        }
+    }
+    for(int lcv=0;lcv<arSize;lcv++){
         if(myVect[lcv].name[0] == '\0'){
             myVect[lcv] = d;
-            printf("added %s\n",d.name);
+            cnt++;
             return d;
         }
     }
-    printf("vector list is full\n");
+    printf("Error: vector not added\n");
     return d;
     //return added vect value;
 }
@@ -65,7 +80,7 @@ vect addVect(vect d){
 vect findVect(vect a){
     vect d;
     //in work
-    for(int lcv=0;lcv<10;lcv++){
+    for(int lcv=0;lcv<arSize;lcv++){
         if(!strcmp(a.name,myVect[lcv].name)){
             return myVect[lcv];
         }
@@ -76,7 +91,7 @@ vect findVect(vect a){
 }
 void clear(){
     //clear array
-    for (int lcv=0;lcv<10;lcv++){
+    for (int lcv=0;lcv<arSize;lcv++){
         myVect[lcv].name[0] = '\0';
         myVect[lcv].x = 0;
         myVect[lcv].y = 0;
@@ -92,7 +107,7 @@ vect replace(vect a,vect d){
     //chosen name is replaced with vect d
     //return old vect
     //in work
-    for(int lcv=0;lcv<10;lcv++){
+    for(int lcv=0;lcv<arSize;lcv++){
         if(!strcmp(a.name,myVect[lcv].name)){
             myVect[lcv].x=a.x;
             myVect[lcv].y=a.y;
@@ -114,8 +129,10 @@ void quit(){
 }
 void list(){
     //list the array
-    for(int lcv=0;lcv<10;lcv++){
-        printf("%s: %f %f %f\n",myVect[lcv].name,myVect[lcv].x,myVect[lcv].y,myVect[lcv].z);
+    for(int lcv=0;lcv<arSize;lcv++){
+        if((myVect[lcv].name[0] != '\0')){
+            printf("%s: %f %f %f\n",myVect[lcv].name,myVect[lcv].x,myVect[lcv].y,myVect[lcv].z);
+        }
     }
 }
 void vector(){
@@ -125,6 +142,12 @@ void vector(){
         //find vector
 }
 void parseEntry(){
+    //will create initial list if empty;
+    if (myVect==NULL){
+        printf("here at malloc\n");
+        myVect = malloc(arSize * sizeof(vect));
+        
+    }
     //will parse the user input and call appropiate command
     printf("please input a command or vector\n");
     printf(">>> ");
@@ -298,4 +321,17 @@ void parseEntry(){
 
         parseEntry();
     }
+}
+
+//*************************************************************** */
+//Dynamic memory functions
+
+//save the array to a CVS file
+void save(){
+
+}
+
+//load a given file
+void load(FILE f){
+    
 }

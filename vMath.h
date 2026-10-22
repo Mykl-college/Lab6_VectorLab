@@ -22,7 +22,7 @@ vect replace(vect a,vect d);
     //chosen name is replaced with vect d
     //return old vect
 /*************************************************************/
-//User Interface commnads
+//User Interface commands
 void help();
     //give detail about program
 void quit();
@@ -38,3 +38,9 @@ void vector();
         //find vector
 void parseEntry();
     //will parse the user input and call appropiate command
+
+////UI memory commands
+void save();
+//save current file to a CVS file
+void load(FILE f);
+//load a CVS file and overrides the current array
