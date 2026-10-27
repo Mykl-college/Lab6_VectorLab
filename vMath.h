@@ -42,5 +42,5 @@ void parseEntry();
 ////UI memory commands
 void save();
 //save current file to a CVS file
-void load(FILE f);
+void load(char f[]);
 //load a CVS file and overrides the current array

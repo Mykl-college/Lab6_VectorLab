@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <errno.h>
 #include "vect.h"
 #include "vMath.h"
 //static memory
@@ -126,6 +127,7 @@ void help(){
 }
 void quit(){
     //ends the program - program will run until this is called
+    free(myVect);
 }
 void list(){
     //list the array
@@ -144,7 +146,6 @@ void vector(){
 void parseEntry(){
     //will create initial list if empty;
     if (myVect==NULL){
-        printf("here at malloc\n");
         myVect = malloc(arSize * sizeof(vect));
         
     }
@@ -164,6 +165,22 @@ void parseEntry(){
         clear();
         parseEntry();
     }else
+    if(!strcmp(command,"save")||!strcmp(command,"save\n")){
+        save();
+        parseEntry();
+    }else
+    if(!strcmp(command,"load")||!strcmp(command,"load\n")){
+        myPtr = strtok(NULL, " ");
+        if (myPtr != NULL){
+            char fName[99];
+            strcpy(fName,myPtr);
+            fName[strcspn(fName, "\n")] = '\0';
+            load(fName);
+        }else{
+        load("vector.csv");
+        }
+        parseEntry();
+    }else
     if(!strcmp(command,"quit")||!strcmp(command,"quit\n")){
         quit();
     }else
@@ -176,10 +193,6 @@ void parseEntry(){
         strcpy(nVect.name,myPtr);
         nVect.name[strcspn(nVect.name, "\n")] = '\0';
         myPtr = strtok(NULL, " ");
-
-        //vector = vector math
-
-
 
         //find vector
         if (myPtr == NULL){
@@ -328,10 +341,74 @@ void parseEntry(){
 
 //save the array to a CVS file
 void save(){
-
+    //open vector file
+    FILE *fptr = fopen("vector.csv", "w");
+    if(fptr==NULL){
+        printf("Error saving file\n");
+    }
+    //go through list
+    for(int lcv=0;lcv<arSize;lcv++){
+        if((myVect[lcv].name[0] != '\0')){
+            fprintf(fptr,"%s,%f,%f,%f\n",myVect[lcv].name,myVect[lcv].x,myVect[lcv].y,myVect[lcv].z);
+        }
+    }
+    //end file
+    fclose(fptr);
 }
 
 //load a given file
-void load(FILE f){
-    
+void load(char f[]){
+    //check file
+    char *type = strstr(f,".csv");
+    //printf("type: %s",type);
+    if(type==NULL){
+        type = strstr(f,".txt");
+        if(type==NULL){
+            printf("File type not supported\n");
+        }
+    }else{
+    FILE *fptr = fopen(f,"r");
+    if(fptr==NULL){
+        perror("Error opening file: ");
+    }else{
+        char line[100];
+        while(fgets(line,99,fptr)){
+            //grab line
+            char *tok = strtok(line,",");
+            //create vect
+            vect nVect;
+            //set name
+            strcpy(nVect.name,tok);
+            nVect.name[strcspn(nVect.name, "\n")] = '\0';
+            //grab next
+            tok = strtok(NULL, ",");
+            //set x
+            if(tok!=NULL){
+                nVect.x = atof(tok);
+                tok = strtok(NULL, ",");
+                //set y
+                if(tok!=NULL){
+                    nVect.y = atof(tok);
+                    tok = strtok(NULL, ",");
+                    //set z
+                    if(tok!=NULL){
+                        nVect.z = atof(tok);
+                        tok = strtok(NULL, ",");
+                    }
+                }
+            }
+            //add vector
+            vect tempVect=findVect(nVect);
+                if((tempVect.name[0] == '\0')){
+                    addVect(nVect);
+                }else{
+                    replace(nVect,nVect);
+                }
+            //add Vector
+            //addVect(nVect);
+        }
+        
+    }
+}
+
 }
