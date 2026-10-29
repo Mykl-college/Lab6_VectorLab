@@ -18,8 +18,7 @@ This progam is a vector calculator, the following actions can be called:
 - quit 
 
 ## Dynamic memory
-- If this is still here, it has not been implemented yet
-    - or I forget to get rid of this and explain what I did
-- Array not limited to size anymore.
-    - Intitial array starts at 10.
-    - when make size is reached, the array is realloc to double the size.
+- Array now uses malloc and realloc to not be restrained
+- Files can now be read and saved
+    - Array is saved to vector.csv
+    - Can read Array in .csv
